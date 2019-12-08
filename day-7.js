@@ -30,9 +30,7 @@ class Program {
     this.position = 0;
     this.memory = Array.from(programCode);
     this.input = [];
-    this.isHalted = false;
     this.waiting = true;
-    this.sentOutput = false;
     this.outputPrograms = [];
   }
 
@@ -119,19 +117,16 @@ class Program {
           this.position--;
           return;
         }
-        const nextInput = this.input.shift();
-        this.write(nextInput, this.readValue());
+        this.write(this.input.shift(), this.readValue());
         break;
       case OP_OUTPUT:
         this.output = inputValues[0];
-        this.sentOutput = true;
         this.outputPrograms.forEach(program => program.addInput(this.output));
         break;
       case OP_END:
         this.isHalted = true;
         break;
     }
-    // console.log("after", state.memory);
   }
 }
 
@@ -187,10 +182,9 @@ const permutation = array => {
   return array.reduce(
     (acc, curr, i) => [
       ...acc,
-      ...permutation([
-        ...array.slice(0, i),
-        ...array.slice(i + 1)
-      ]).map(descendants => [curr, ...descendants])
+      ...permutation([...array.slice(0, i), ...array.slice(i + 1)]).map(
+        descendants => [curr, ...descendants]
+      )
     ],
     []
   );
