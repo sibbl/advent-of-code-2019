@@ -73,11 +73,12 @@ class Program {
   getOutput() {
     return this.output.join(",");
   }
+
   run() {
     while (!this.isHalted && this.canRead && !this.waiting) {
       this.step();
     }
-    return this.output;
+    return this.getOutput();
   }
 
   step() {
@@ -154,12 +155,11 @@ class Program {
 }
 
 const programCode = input.split(",").map(n => parseInt(n));
+
 const program1 = new Program(programCode);
 program1.addInput(1);
-program1.run();
-console.log("task 1", program1.getOutput());
+console.log("task 1", program1.run());
 
 const program2 = new Program(programCode);
 program2.addInput(2);
-program2.run();
-console.log("task 2", program2.getOutput());
+console.log("task 2", program2.run());
